@@ -57,6 +57,7 @@ func main() {
 	flag.StringVar(&listenPort, "port", "8888", "The port to listen to for incoming requests")
 	flag.StringVar(&backendHost, "backend-host", "http://localhost:5000", "The backend server to forrward the requests to")
 	flag.StringVar(&mongoProxyRPC, "mongo-proxy-rpc", "localhost:5557", "The MongoProxy RPC server")
+	flag.Parse()
 
 	fmt.Println("Starting HTTP proxy")
 
