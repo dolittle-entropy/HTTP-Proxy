@@ -67,6 +67,7 @@ func main() {
 		log.Print(err)
 		time.Sleep(time.Second * 2)
 		fmt.Println("Reconnecting to MongoDB proxy...")
+		client, err = rpc.DialHTTP("tcp", mongoProxyRPC)
 	}
 
 	fmt.Println("Starting HTTP proxy")
