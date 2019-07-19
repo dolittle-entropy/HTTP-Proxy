@@ -8,6 +8,7 @@ import (
 	"net/http/httputil"
 	"net/rpc"
 	"net/url"
+	"time"
 )
 
 type registerArgs struct {
@@ -59,14 +60,18 @@ func main() {
 	flag.StringVar(&mongoProxyRPC, "mongo-proxy-rpc", "localhost:5557", "The MongoProxy RPC server")
 	flag.Parse()
 
+	fmt.Println("Connecting to MongoDB proxy")
+
+	client, err := rpc.DialHTTP("tcp", mongoProxyRPC)
+	for err != nil {
+		log.Print(err)
+		time.Sleep(time.Second * 2)
+		fmt.Println("Reconnecting to MongoDB proxy...")
+	}
+
 	fmt.Println("Starting HTTP proxy")
 
 	target, err := url.Parse(backendHost)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	client, err := rpc.DialHTTP("tcp", mongoProxyRPC)
 	if err != nil {
 		log.Fatal(err)
 	}
